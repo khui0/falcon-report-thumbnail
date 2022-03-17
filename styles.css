@@ -21,12 +21,16 @@ input, textarea, select {
     font-family: "DM Sans", sans-serif;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     display: grid;
     justify-content: center;
     align-items: center;
-
-    height: 100vh;
+    
+    height: 100%;
     margin: 0;
 
     background-color: var(--background-color);
