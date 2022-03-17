@@ -21,6 +21,12 @@ input, textarea, select {
     font-family: "DM Sans", sans-serif;
 }
 
+a {
+    color: var(--accent-color);
+
+    font-family: "DM Sans", sans-serif;
+}
+
 html {
     height: 100%;
 }
@@ -73,6 +79,7 @@ button:hover {
 .menu-bar {
     display: flex;
     justify-content: right;
+    align-items: center;
     gap: 6px;
 
     width: 80vw;
