@@ -3,30 +3,25 @@ const ctx = image.getContext("2d");
 const w = 1920;
 const h = 1080;
 
-const textOptions = document.getElementById("text-options");
+const textSize = document.getElementById("text-size");
+const displayStyle = document.getElementById("display-style");
 const subtitle = document.getElementById("subtitle");
 const datePicker = document.getElementById("date");
 
 const primaryFont = new FontFace("LinLibertine", "url(assets/LinLibertine_aBS.ttf)");
-const secondaryFont = new FontFace("Montserrat", "url(assets/Montserrat-Medium.ttf)");
+const secondaryFont = new FontFace("Montserrat", "url(assets/Montserrat-SemiBold.ttf)");
 
 const backgroundLogo = new Image();
 backgroundLogo.src = "assets/falcon.svg";
 
 // Event listeners
-textOptions.addEventListener("input", () => {
-    update();
+document.querySelectorAll("input, select").forEach(item => {
+    item.addEventListener("input", () => {
+        update();
+    });
 });
 
-subtitle.addEventListener("input", () => {
-    update();
-});
-
-datePicker.addEventListener("input", () => {
-    update();
-});
-
-document.getElementById("download").addEventListener("click", e => {
+document.getElementById("download").addEventListener("click", () => {
     downloadImage();
 });
 
@@ -34,10 +29,13 @@ document.getElementById("download").addEventListener("click", e => {
 image.setAttribute("width", w);
 image.setAttribute("height", h);
 
+// Set default text size
+textSize.value = 8;
+
 // Set date picker to this week's friday
 var today = new Date();
 var friday = today.getDate() - today.getDay() + 5;
-datePicker.value = new Date(today.setDate(friday)).toISOString().split("T")[0];
+datePicker.value = dateToISO(new Date(today.setDate(friday)));
 
 // Load fonts
 primaryFont.load().then(font => {
@@ -95,16 +93,14 @@ function update() {
     ctx.fillText("Report", w * 0.5, h * 0.5);
 
     // Draw bottom text
-    if (textOptions.value == 0) {
-        ctx.font = (h / 8) + "px Montserrat";
+    ctx.font = (h / textSize.value) + "px Montserrat";
+    if (displayStyle.value == 0) {
         ctx.fillText(ISOToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8);
     }
-    else if (textOptions.value == 1) {
-        ctx.font = (h / 8) + "px Montserrat";
+    else if (displayStyle.value == 1) {
         ctx.fillText(subtitle.value, w * 0.5, h * 0.8);
     }
-    else if (textOptions.value == 2) {
-        ctx.font = (h / 8) + "px Montserrat";
+    else if (displayStyle.value == 2) {
         ctx.fillText(subtitle.value, w * 0.5, h * 0.73);
         ctx.fillText(ISOToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87);
     }
@@ -115,6 +111,16 @@ function update() {
 
 function ISOToString(date) {
     return new Date(date).toLocaleDateString("en-us", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+}
+
+function dateToISO(date) {
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    if (month < 10) {
+        month = "0" + month;
+    }
+    return `${year}-${month}-${day}`;
 }
 
 function downloadImage() {
