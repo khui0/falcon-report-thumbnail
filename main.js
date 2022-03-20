@@ -40,12 +40,10 @@ datePicker.value = dateToISO(new Date(today.setDate(friday)));
 // Load fonts
 primaryFont.load().then(font => {
     document.fonts.add(font);
-    update();
-});
-
-secondaryFont.load().then(font => {
-    document.fonts.add(font);
-    update();
+    secondaryFont.load().then(font => {
+        document.fonts.add(font);
+        update();
+    });
 });
 
 function update() {
@@ -73,12 +71,6 @@ function update() {
     ctx.drawImage(backgroundLogo, x, y, logoSize, logoSize);
     ctx.globalAlpha = 1;
 
-    // Set shadows
-    ctx.shadowColor = "rgba(0, 0, 10, 0.5)";
-    ctx.shadowBlur = 50;
-    ctx.shadowOffsetX = 30;
-    ctx.shadowOffsetY = 30;
-
     // Format text
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -86,31 +78,46 @@ function update() {
 
     // Draw main text
     ctx.font = (h / 8) + "px LinLibertine";
-    ctx.fillText("THE", w * 0.17, h * 0.23);
+    floating3DText(ctx, "THE", w * 0.17, h * 0.23, h / 30);
     ctx.font = (h / 3) + "px LinLibertine";
-    ctx.fillText("Falcon", w * 0.6, h * 0.25);
+    floating3DText(ctx, "Falcon", w * 0.6, h * 0.25, h / 30);
     ctx.font = (h / 2.5) + "px LinLibertine";
-    ctx.fillText("Report", w * 0.5, h * 0.5);
+    floating3DText(ctx, "Report", w * 0.5, h * 0.5, h / 30);
 
     // Draw bottom text
     ctx.font = (h / textSize.value) + "px Montserrat";
     if (displayStyle.value == 0) {
-        ctx.fillText(ISOToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8);
+        floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
     }
     else if (displayStyle.value == 1) {
-        ctx.fillText(subtitle.value, w * 0.5, h * 0.8);
+        floating3DText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
     }
     else if (displayStyle.value == 2) {
-        ctx.fillText(subtitle.value, w * 0.5, h * 0.73);
-        ctx.fillText(ISOToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87);
+        floating3DText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
+        floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
     }
-
-    // "Disables" shadows
-    ctx.shadowColor = "transparent";
 }
 
-function ISOToString(date) {
-    return new Date(date).toLocaleDateString("en-us", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+function floating3DText(ctx, string, x, y, depth) {
+    let startX = x + depth;
+    let startY = y + depth;
+    for (i = 1; i < depth; i++) {
+        if (i == 1) {
+            ctx.shadowColor = "rgba(0, 0, 10, 0.5)";
+            ctx.shadowBlur = 50;
+            ctx.shadowOffsetX = 30;
+            ctx.shadowOffsetY = 30;
+        }
+        ctx.fillStyle = "rgb(30, 30, 30)";
+        ctx.fillText(string, startX - i, startY - i);
+        ctx.shadowColor = "transparent";
+    }
+    ctx.fillStyle = "white";
+    ctx.fillText(string, x, y);
+}
+
+function dateToString(date) {
+    return new Date(date).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 }
 
 function dateToISO(date) {

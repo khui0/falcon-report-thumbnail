@@ -14,16 +14,17 @@ input, textarea, select {
     padding: 0 0.5em;
     border: none;
     border-radius: 6px;
-
     background-color: var(--surface-color);
     color: var(--text-color);
-
     font-family: "DM Sans", sans-serif;
+}
+
+::-webkit-calendar-picker-indicator {
+    margin-left: 0px;
 }
 
 a {
     color: var(--accent-color);
-
     font-family: "DM Sans", sans-serif;
 }
 
@@ -35,10 +36,8 @@ body {
     display: grid;
     justify-content: center;
     align-items: center;
-    
     height: 100%;
     margin: 0;
-
     background-color: var(--background-color);
     color: var(--text-color);
 }
@@ -48,30 +47,31 @@ button {
     padding: 0 1.5em;
     border: none;
     border-radius: 6px;
-
     background-color: var(--accent-color);
     color: white;
-
     font-family: "DM Sans", sans-serif;
-
-    transition: 0.1s ease-in-out;
+    transition: 50ms ease-in-out;
 }
 
 button:hover {
     transform: scale(1.1);
 }
 
+button:active {
+    transform: scale(1);
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 80vw;
+    padding: 20px 0;
 }
 
 .thumbnail {
-    width: 80vw;
     height: auto;
     border-radius: 6px;
-
     background-color: var(--surface-color);
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -81,8 +81,10 @@ button:hover {
     justify-content: right;
     align-items: center;
     gap: 6px;
+}
 
-    width: 80vw;
+.menu-bar>input {
+    min-width: 10px;
 }
 
 @media only screen and (max-width: 768px) {
