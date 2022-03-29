@@ -4,7 +4,7 @@ const w = 1920;
 const h = 1080;
 
 const textSize = document.getElementById("text-size");
-const displayStyle = document.getElementById("display-style");
+const displayOptions = document.getElementById("display-options");
 const subtitle = document.getElementById("subtitle");
 const datePicker = document.getElementById("date");
 
@@ -86,13 +86,13 @@ function update() {
 
     // Draw bottom text
     ctx.font = (h / textSize.value) + "px Montserrat";
-    if (displayStyle.value == 0) {
+    if (displayOptions.value == 0) {
         floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
     }
-    else if (displayStyle.value == 1) {
+    else if (displayOptions.value == 1) {
         floating3DText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
     }
-    else if (displayStyle.value == 2) {
+    else if (displayOptions.value == 2) {
         floating3DText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
         floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
     }

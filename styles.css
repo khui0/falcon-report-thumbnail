@@ -1,8 +1,9 @@
 :root {
+    --text-color: black;
     --background-color: white;
     --surface-color: rgb(240, 240, 240);
     --accent-color: rgb(178, 35, 35);
-    --text-color: black;
+    --accent-hover-color: rgb(212, 60, 60);
 }
 
 :focus {
@@ -26,6 +27,11 @@ input, textarea, select {
 a {
     color: var(--accent-color);
     font-family: "DM Sans", sans-serif;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 html {
@@ -54,11 +60,7 @@ button {
 }
 
 button:hover {
-    transform: scale(1.1);
-}
-
-button:active {
-    transform: scale(1);
+    background-color: var(--accent-hover-color);
 }
 
 .main-container {
