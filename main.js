@@ -122,12 +122,15 @@ function dateToString(date) {
 
 function dateToISO(date) {
     let year = date.getFullYear()
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    if (month < 10) {
-        month = "0" + month;
-    }
+    let month = toDoubleDigit(date.getMonth() + 1);
+    let day = toDoubleDigit(date.getDate());
     return `${year}-${month}-${day}`;
+}
+
+function toDoubleDigit(input) {
+    if (input < 10) {
+        return "0" + input;
+    }
 }
 
 function downloadImage() {
