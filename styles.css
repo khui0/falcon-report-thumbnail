@@ -1,9 +1,8 @@
 :root {
-    --text-color: black;
-    --background-color: white;
-    --surface-color: rgb(240, 240, 240);
-    --accent-color: rgb(178, 35, 35);
-    --accent-hover-color: rgb(212, 60, 60);
+    --text-color: #000000;
+    --background-color: #ffffff;
+    --surface-color: #f0f0f0;
+    --accent-color: #b22323;
 }
 
 html {
@@ -63,11 +62,20 @@ button {
 }
 
 button:hover {
-    background-color: var(--accent-hover-color);
+    filter: brightness(1.25);
 }
 
 .thumbnail {
     width: 100%;
     border-radius: 8px;
     background-color: var(--surface-color);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #ffffff;
+        --background-color: #151515;
+        --surface-color: #1c1c1c;
+        --accent-color: #b22323;
+    }
 }
