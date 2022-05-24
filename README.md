@@ -1,12 +1,15 @@
 # Falcon Report Thumbnail Generator
-> Quickly generate thumbnails for [The Falcon Report](https://www.youtube.com/c/TheFalconReport).
-> Create a thumbnail [here](https://khui0.github.io/fr-generator/)
 
-## Usage
+Quickly generate thumbnails for [The Falcon Report](https://www.youtube.com/c/TheFalconReport).
+
+## Use
+[Create a thumbnail](https://khui0.github.io/fr-generator/)
+
+## Options
 ![menu](https://user-images.githubusercontent.com/101839505/159144636-0920d429-eeff-4b98-baf8-5576e0c4d725.png)
 
-left to right
-- Date and subtitle text size in fraction of thumbnail height
+From left to right
+- Text size in fraction of thumbnail height
 - Choose whether to show date, subtitle, or both
 - Enter an optional subtitle
 - Manually select a date
