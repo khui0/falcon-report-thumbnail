@@ -6,27 +6,32 @@
     --accent-hover-color: rgb(212, 60, 60);
 }
 
-:focus {
-    outline: none;
+html {
+    font: 16px "Montserrat", sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-input, textarea, select {
-    height: 2.5em;
-    padding: 0 0.5em;
-    border: none;
-    border-radius: 6px;
-    background-color: var(--surface-color);
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: clamp(400px, 70vw, 800px);
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--background-color);
     color: var(--text-color);
-    font-family: "DM Sans", sans-serif;
 }
 
-::-webkit-calendar-picker-indicator {
-    margin-left: 0px;
+h1 {
+    font-weight: 700;
+    margin: 0;
 }
 
 a {
     color: var(--accent-color);
-    font-family: "DM Sans", sans-serif;
+    font: 16px "Montserrat", sans-serif;
     text-decoration: none;
 }
 
@@ -34,65 +39,35 @@ a:hover {
     text-decoration: underline;
 }
 
-html {
-    height: 100%;
-}
-
-body {
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin: 0;
-    background-color: var(--background-color);
+input,
+textarea,
+select {
+    height: 2.5em;
+    padding: 0 0.5em;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--surface-color);
     color: var(--text-color);
+    font: 16px "Montserrat", sans-serif;
 }
 
 button {
     height: 2.5em;
-    padding: 0 1.5em;
+    padding: 0 1em;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: var(--accent-color);
     color: white;
-    font-family: "DM Sans", sans-serif;
-    transition: 50ms ease-in-out;
+    font: 16px "Montserrat", sans-serif;
+    transition: 50ms ease;
 }
 
 button:hover {
     background-color: var(--accent-hover-color);
 }
 
-.main-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 80vw;
-    padding: 20px 0;
-}
-
 .thumbnail {
-    height: auto;
-    border-radius: 6px;
+    width: 100%;
+    border-radius: 8px;
     background-color: var(--surface-color);
-}
-
-.menu-bar {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    gap: 6px;
-}
-
-.menu-bar>input {
-    min-width: 10px;
-}
-
-@media only screen and (max-width: 768px) {
-    .menu-bar {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 6px;
-    }
 }

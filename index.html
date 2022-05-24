@@ -10,32 +10,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
-    <div class="main-container">
-        <canvas id="thumbnail" class="thumbnail"></canvas>
-        <div class="menu-bar">
-            <a href="https://github.com/khui0/falcon-report-thumbnail" target="_blank">GitHub</a>
-            <select id="text-size">
-                <option value="6">1/6</option>
-                <option value="7">1/7</option>
-                <option value="8">1/8</option>
-                <option value="9">1/9</option>
-                <option value="10">1/10</option>
-            </select>
-            <select id="display-options">
-                <option value="0">date only</option>
-                <option value="1">subtitle only</option>
-                <option value="2">both</option>
-            </select>
-            <input type="text" placeholder="subtitle" id="subtitle">
-            <input type="date" id="date">
-            <button id="download">download</button>
-        </div>
-    </div>
+    <h1>Thumbnail Generator</h1>
+    <canvas id="thumbnail" class="thumbnail"></canvas>
+    <a href="https://github.com/khui0/falcon-report-thumbnail" target="_blank">GitHub</a>
+    <select id="text-size">
+        <option value="6">1/6</option>
+        <option value="7">1/7</option>
+        <option value="8">1/8</option>
+        <option value="9">1/9</option>
+        <option value="10">1/10</option>
+    </select>
+    <select id="display-options">
+        <option value="0">Date only</option>
+        <option value="1">Subtitle only</option>
+        <option value="2">Both</option>
+    </select>
+    <input type="text" placeholder="Subtitle" id="subtitle">
+    <input type="date" id="date">
+    <button id="download">download</button>
     <script src="main.js" async defer></script>
 </body>
 
