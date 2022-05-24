@@ -1,43 +1,39 @@
-const image = document.getElementById("thumbnail");
-const ctx = image.getContext("2d");
+const thumbnail = document.getElementById("thumbnail");
+thumbnail.offscreen = document.createElement("canvas");
+
 const w = 1920;
 const h = 1080;
+
+thumbnail.setAttribute("width", w);
+thumbnail.setAttribute("height", h);
+thumbnail.offscreen.width = thumbnail.width;
+thumbnail.offscreen.height = thumbnail.height;
+
+const ctx = thumbnail.offscreen.getContext("2d");
 
 const textSize = document.getElementById("text-size");
 const displayOptions = document.getElementById("display-options");
 const subtitle = document.getElementById("subtitle");
 const datePicker = document.getElementById("date");
 
+// Assets
 const primaryFont = new FontFace("LinLibertine", "url(assets/LinLibertine_aBS.ttf)");
 const secondaryFont = new FontFace("Montserrat", "url(assets/Montserrat-SemiBold.ttf)");
-
 const backgroundLogo = new Image();
 backgroundLogo.src = "assets/falcon.svg";
 
-// Event listeners
 document.querySelectorAll("input, select").forEach(item => {
-    item.addEventListener("input", () => {
-        update();
-    });
+    item.addEventListener("input", update);
 });
 
-document.getElementById("download").addEventListener("click", () => {
-    downloadImage();
-});
+document.getElementById("download").addEventListener("click", downloadImage);
 
-// Set the image dimensions
-image.setAttribute("width", w);
-image.setAttribute("height", h);
-
-// Set default text size
-textSize.value = 8;
-
-// Set date picker to this week's friday
+// Set date picker to the this Friday
 var today = new Date();
 var friday = today.getDate() - today.getDay() + 5;
 datePicker.value = dateToISO(new Date(today.setDate(friday)));
 
-// Load fonts
+// Load fonts and update
 primaryFont.load().then(font => {
     document.fonts.add(font);
     secondaryFont.load().then(font => {
@@ -47,28 +43,15 @@ primaryFont.load().then(font => {
 });
 
 function update() {
-    // Draw background
-    const gradient = ctx.createConicGradient(0, w * 0.5, h * 0.5);
-    gradient.addColorStop(0, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.1, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.2, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.3, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.4, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.5, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.6, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.7, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.8, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.9, "rgb(178, 35, 35)");
-    gradient.addColorStop(1, "rgb(122, 24, 24)");
-    ctx.fillStyle = gradient;
+    ctx.fillStyle = backgroundGradient();
     ctx.fillRect(0, 0, w, h);
 
     // Draw background logo
-    let logoSize = h * 1.5;
-    let x = (w - logoSize) / 2;
-    let y = (h - logoSize) / 2;
+    let size = h * 1.5;
+    let x = (w - size) / 2;
+    let y = (h - size) / 2;
     ctx.globalAlpha = 0.2;
-    ctx.drawImage(backgroundLogo, x, y, logoSize, logoSize);
+    ctx.drawImage(backgroundLogo, x, y, size, size);
     ctx.globalAlpha = 1;
 
     // Format text
@@ -86,16 +69,37 @@ function update() {
 
     // Draw bottom text
     ctx.font = (h / textSize.value) + "px Montserrat";
-    if (displayOptions.value == 0) {
-        floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+    switch (displayOptions.value) {
+        case "0":
+            floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+            break;
+        case "1":
+            floating3DText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
+            break;
+        case "2":
+            floating3DText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
+            floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
+            break;
     }
-    else if (displayOptions.value == 1) {
-        floating3DText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
-    }
-    else if (displayOptions.value == 2) {
-        floating3DText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
-        floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
-    }
+
+    // Draw offscreen canvas to onscreen canvas
+    thumbnail.getContext("2d").drawImage(thumbnail.offscreen, 0, 0);
+}
+
+function backgroundGradient() {
+    const gradient = ctx.createConicGradient(0, w * 0.5, h * 0.5);
+    gradient.addColorStop(0, "rgb(122, 24, 24)");
+    gradient.addColorStop(0.1, "rgb(178, 35, 35)");
+    gradient.addColorStop(0.2, "rgb(122, 24, 24)");
+    gradient.addColorStop(0.3, "rgb(178, 35, 35)");
+    gradient.addColorStop(0.4, "rgb(122, 24, 24)");
+    gradient.addColorStop(0.5, "rgb(178, 35, 35)");
+    gradient.addColorStop(0.6, "rgb(122, 24, 24)");
+    gradient.addColorStop(0.7, "rgb(178, 35, 35)");
+    gradient.addColorStop(0.8, "rgb(122, 24, 24)");
+    gradient.addColorStop(0.9, "rgb(178, 35, 35)");
+    gradient.addColorStop(1, "rgb(122, 24, 24)");
+    return gradient;
 }
 
 function floating3DText(ctx, string, x, y, depth) {
@@ -128,8 +132,8 @@ function dateToISO(date) {
 }
 
 function downloadImage() {
-    var link = document.createElement("a");
+    let link = document.createElement("a");
     link.download = `fr-${datePicker.value}.png`;
-    link.href = image.toDataURL();
+    link.href = thumbnail.toDataURL();
     link.click();
 }
