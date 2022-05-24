@@ -1,6 +1,6 @@
 # Falcon Report Thumbnail Generator
 > Quickly generate thumbnails for [The Falcon Report](https://www.youtube.com/c/TheFalconReport).
-> Customize a thumbnail [here](https://khui0.github.io/fr-generator/)
+> Create a thumbnail [here](https://khui0.github.io/fr-generator/)
 
 ## Usage
 ![menu](https://user-images.githubusercontent.com/101839505/159144636-0920d429-eeff-4b98-baf8-5576e0c4d725.png)
