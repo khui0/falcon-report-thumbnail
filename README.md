@@ -11,4 +11,4 @@ Quickly generate thumbnails for [The Falcon Report](https://www.youtube.com/c/Th
 - Enter an optional subtitle
 - Manually select a date
 
-> "shout me out" -luke lopez
+"shout me out" -luke lopez
