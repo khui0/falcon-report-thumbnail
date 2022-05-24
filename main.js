@@ -1,6 +1,5 @@
 const thumbnail = document.getElementById("thumbnail");
 thumbnail.offscreen = document.createElement("canvas");
-
 const w = 1920;
 const h = 1080;
 
@@ -16,7 +15,6 @@ const displayOptions = document.getElementById("display-options");
 const subtitle = document.getElementById("subtitle");
 const datePicker = document.getElementById("date");
 
-// Assets
 const primaryFont = new FontFace("LinLibertine", "url(assets/LinLibertine_aBS.ttf)");
 const secondaryFont = new FontFace("Montserrat", "url(assets/Montserrat-SemiBold.ttf)");
 const backgroundLogo = new Image();
@@ -46,7 +44,7 @@ function update() {
     ctx.fillStyle = backgroundGradient();
     ctx.fillRect(0, 0, w, h);
 
-    // Draw background logo
+    // Background logo
     let size = h * 1.5;
     let x = (w - size) / 2;
     let y = (h - size) / 2;
@@ -54,12 +52,12 @@ function update() {
     ctx.drawImage(backgroundLogo, x, y, size, size);
     ctx.globalAlpha = 1;
 
-    // Format text
+    // Text formatting
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "white";
 
-    // Draw main text
+    // Primary text
     ctx.font = (h / 8) + "px LinLibertine";
     floating3DText(ctx, "THE", w * 0.17, h * 0.23, h / 30);
     ctx.font = (h / 3) + "px LinLibertine";
@@ -67,7 +65,7 @@ function update() {
     ctx.font = (h / 2.5) + "px LinLibertine";
     floating3DText(ctx, "Report", w * 0.5, h * 0.5, h / 30);
 
-    // Draw bottom text
+    // Secondary text
     ctx.font = (h / textSize.value) + "px Montserrat";
     switch (displayOptions.value) {
         case "0":
