@@ -16,7 +16,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: clamp(400px, 70vw, 800px);
+    box-sizing: border-box;
+    width: min(100%, 800px);
     margin: 0 auto;
     padding: 20px;
     background-color: var(--background-color);
