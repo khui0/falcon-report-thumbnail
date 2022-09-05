@@ -1,12 +1,12 @@
 :root {
     --text-color: #000000;
     --background-color: #ffffff;
-    --surface-color: #f0f0f0;
+    --surface-color: #ececec;
     --accent-color: #b22323;
 }
 
 html {
-    font: 16px "Montserrat", sans-serif;
+    font: 500 16px "Montserrat", sans-serif;
     -webkit-text-size-adjust: 100%;
     -webkit-user-select: none;
     user-select: none;
@@ -24,14 +24,27 @@ body {
     color: var(--text-color);
 }
 
+:focus {
+    outline: none;
+    filter: brightness(1.1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
+}
+
 h1 {
-    font-weight: 700;
-    margin: 0;
+    font-weight: 600;
 }
 
 a {
     color: var(--accent-color);
-    font: 16px "Montserrat", sans-serif;
     text-decoration: none;
 }
 
@@ -48,7 +61,7 @@ select {
     border-radius: 8px;
     background-color: var(--surface-color);
     color: var(--text-color);
-    font: 16px "Montserrat", sans-serif;
+    font: inherit;
 }
 
 button {
@@ -56,14 +69,14 @@ button {
     padding: 0 1em;
     border: none;
     border-radius: 8px;
-    background-color: var(--accent-color);
-    color: white;
-    font: 16px "Montserrat", sans-serif;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
     transition: 50ms ease;
 }
 
 button:hover {
-    filter: brightness(1.25);
+    filter: brightness(1.1);
 }
 
 .thumbnail {
@@ -72,11 +85,15 @@ button:hover {
     background-color: var(--surface-color);
 }
 
+#download {
+    background-color: var(--accent-color);
+    color: #ffffff;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --text-color: #ffffff;
         --background-color: #151515;
-        --surface-color: #1c1c1c;
-        --accent-color: #b22323;
+        --surface-color: #202020;
     }
 }
