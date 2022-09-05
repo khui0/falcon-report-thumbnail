@@ -1,14 +1,14 @@
-const thumbnail = document.getElementById("thumbnail");
-thumbnail.offscreen = document.createElement("canvas");
+const output = document.getElementById("output");
+output.offscreen = document.createElement("canvas");
 const w = 1920;
 const h = 1080;
 
-thumbnail.setAttribute("width", w);
-thumbnail.setAttribute("height", h);
-thumbnail.offscreen.width = thumbnail.width;
-thumbnail.offscreen.height = thumbnail.height;
+output.setAttribute("width", w);
+output.setAttribute("height", h);
+output.offscreen.width = output.width;
+output.offscreen.height = output.height;
 
-const ctx = thumbnail.offscreen.getContext("2d");
+const ctx = output.offscreen.getContext("2d");
 
 const textSize = document.getElementById("text-size");
 const visibility = document.getElementById("visibility");
@@ -84,7 +84,7 @@ function update() {
     }
 
     // Draw offscreen canvas to onscreen canvas
-    thumbnail.getContext("2d").drawImage(thumbnail.offscreen, 0, 0);
+    output.getContext("2d").drawImage(output.offscreen, 0, 0);
 }
 
 function background() {
@@ -135,6 +135,6 @@ function dateToISO(date) {
 function downloadImage() {
     let link = document.createElement("a");
     link.download = `fr-${datePicker.value}.png`;
-    link.href = thumbnail.toDataURL();
+    link.href = output.toDataURL();
     link.click();
 }
