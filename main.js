@@ -11,14 +11,30 @@ thumbnail.offscreen.height = thumbnail.height;
 const ctx = thumbnail.offscreen.getContext("2d");
 
 const textSize = document.getElementById("text-size");
-const displayOptions = document.getElementById("display-options");
+const visibility = document.getElementById("visibility");
 const subtitle = document.getElementById("subtitle");
 const datePicker = document.getElementById("date");
 
-const primaryFont = new FontFace("LinLibertine", "url(assets/LinLibertine_aBS.ttf)");
-const secondaryFont = new FontFace("Montserrat", "url(assets/Montserrat-SemiBold.ttf)");
 const backgroundLogo = new Image();
 backgroundLogo.src = "assets/falcon.svg";
+
+const fontFaces = [
+    new FontFace("Title", "url(assets/LinLibertine_aBS.ttf)").load(),
+    new FontFace("Subtitle", "url(assets/Montserrat-SemiBold.ttf)").load()
+]
+
+// Load fonts
+Promise.all(fontFaces).then(values => {
+    for (let i = 0; i < values.length; i++) {
+        document.fonts.add(values[i]);
+    }
+    update();
+});
+
+// Set date picker to Friday
+var today = new Date();
+var friday = today.getDate() - today.getDay() + 5;
+datePicker.value = dateToISO(new Date(today.setDate(friday)));
 
 document.querySelectorAll("input, select").forEach(item => {
     item.addEventListener("input", update);
@@ -26,25 +42,12 @@ document.querySelectorAll("input, select").forEach(item => {
 
 document.getElementById("download").addEventListener("click", downloadImage);
 
-// Set date picker to the this Friday
-var today = new Date();
-var friday = today.getDate() - today.getDay() + 5;
-datePicker.value = dateToISO(new Date(today.setDate(friday)));
-
-// Load fonts and update
-primaryFont.load().then(font => {
-    document.fonts.add(font);
-    secondaryFont.load().then(font => {
-        document.fonts.add(font);
-        update();
-    });
-});
-
 function update() {
-    ctx.fillStyle = backgroundGradient();
+    // Draw background
+    ctx.fillStyle = background();
     ctx.fillRect(0, 0, w, h);
 
-    // Background logo
+    // Draw background logo
     let size = h * 1.5;
     let x = (w - size) / 2;
     let y = (h - size) / 2;
@@ -52,31 +55,31 @@ function update() {
     ctx.drawImage(backgroundLogo, x, y, size, size);
     ctx.globalAlpha = 1;
 
-    // Text formatting
+    // Set text formatting
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "white";
 
-    // Primary text
-    ctx.font = (h / 8) + "px LinLibertine";
-    floating3DText(ctx, "THE", w * 0.17, h * 0.23, h / 30);
-    ctx.font = (h / 3) + "px LinLibertine";
-    floating3DText(ctx, "Falcon", w * 0.6, h * 0.25, h / 30);
-    ctx.font = (h / 2.5) + "px LinLibertine";
-    floating3DText(ctx, "Report", w * 0.5, h * 0.5, h / 30);
+    // Draw title
+    ctx.font = `${(h / 8)}px Title`;
+    floating3DText("THE", w * 0.17, h * 0.23, h / 30);
+    ctx.font = `${(h / 3)}px Title`;
+    floating3DText("Falcon", w * 0.6, h * 0.25, h / 30);
+    ctx.font = `${(h / 2.5)}px Title`;
+    floating3DText("Report", w * 0.5, h * 0.5, h / 30);
 
-    // Secondary text
-    ctx.font = (h / textSize.value) + "px Montserrat";
-    switch (displayOptions.value) {
+    // Draw subtitle
+    ctx.font = `600 ${(h / textSize.value)}px Montserrat`;
+    switch (visibility.value) {
         case "0":
-            floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+            floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
             break;
         case "1":
-            floating3DText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
+            floating3DText(subtitle.value, w * 0.5, h * 0.8, h / 30);
             break;
         case "2":
-            floating3DText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
-            floating3DText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
+            floating3DText(subtitle.value, w * 0.5, h * 0.73, h / 30);
+            floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
             break;
     }
 
@@ -84,26 +87,26 @@ function update() {
     thumbnail.getContext("2d").drawImage(thumbnail.offscreen, 0, 0);
 }
 
-function backgroundGradient() {
-    const gradient = ctx.createConicGradient(0, w * 0.5, h * 0.5);
-    gradient.addColorStop(0, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.1, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.2, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.3, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.4, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.5, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.6, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.7, "rgb(178, 35, 35)");
-    gradient.addColorStop(0.8, "rgb(122, 24, 24)");
-    gradient.addColorStop(0.9, "rgb(178, 35, 35)");
-    gradient.addColorStop(1, "rgb(122, 24, 24)");
-    return gradient;
+function background() {
+    const bg = ctx.createConicGradient(0, w * 0.5, h * 0.5);
+    bg.addColorStop(0, "rgb(122, 24, 24)");
+    bg.addColorStop(0.1, "rgb(178, 35, 35)");
+    bg.addColorStop(0.2, "rgb(122, 24, 24)");
+    bg.addColorStop(0.3, "rgb(178, 35, 35)");
+    bg.addColorStop(0.4, "rgb(122, 24, 24)");
+    bg.addColorStop(0.5, "rgb(178, 35, 35)");
+    bg.addColorStop(0.6, "rgb(122, 24, 24)");
+    bg.addColorStop(0.7, "rgb(178, 35, 35)");
+    bg.addColorStop(0.8, "rgb(122, 24, 24)");
+    bg.addColorStop(0.9, "rgb(178, 35, 35)");
+    bg.addColorStop(1, "rgb(122, 24, 24)");
+    return bg;
 }
 
-function floating3DText(ctx, string, x, y, depth) {
+function floating3DText(string, x, y, depth) {
     let startX = x + depth;
     let startY = y + depth;
-    for (i = 1; i < depth; i++) {
+    for (let i = 1; i < depth; i++) {
         if (i == 1) {
             ctx.shadowColor = "rgba(0, 0, 10, 0.5)";
             ctx.shadowBlur = 50;
