@@ -69,7 +69,7 @@ function update() {
     floating3DText("Report", w * 0.5, h * 0.5, h / 30);
 
     // Draw subtitle
-    ctx.font = `600 ${(h / textSize.value)}px Montserrat`;
+    ctx.font = `600 ${(h / textSize.value)}px Subtitle`;
     switch (visibility.value) {
         case "0":
             floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
