@@ -134,7 +134,7 @@ function dateToISO(date) {
 
 function downloadImage() {
     let link = document.createElement("a");
-    link.download = `fr-${datePicker.value}.png`;
+    link.download = `thumbnail-${datePicker.value}.png`;
     link.href = output.toDataURL();
     link.click();
 }
