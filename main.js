@@ -1,10 +1,11 @@
 const output = document.getElementById("output");
-output.offscreen = document.createElement("canvas");
 const w = 1920;
 const h = 1080;
 
 output.setAttribute("width", w);
 output.setAttribute("height", h);
+
+output.offscreen = document.createElement("canvas");
 output.offscreen.width = output.width;
 output.offscreen.height = output.height;
 
