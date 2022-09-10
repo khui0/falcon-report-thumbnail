@@ -63,24 +63,24 @@ function update() {
 
     // Draw title
     ctx.font = `${(h / 8)}px Title`;
-    ctx.extrudedText("THE", w * 0.17, h * 0.23, h / 30);
+    floating3DText("THE", w * 0.17, h * 0.23, h / 30);
     ctx.font = `${(h / 3)}px Title`;
-    ctx.extrudedText("Falcon", w * 0.6, h * 0.25, h / 30);
+    floating3DText("Falcon", w * 0.6, h * 0.25, h / 30);
     ctx.font = `${(h / 2.5)}px Title`;
-    ctx.extrudedText("Report", w * 0.5, h * 0.5, h / 30);
+    floating3DText("Report", w * 0.5, h * 0.5, h / 30);
 
     // Draw subtitle
     ctx.font = `600 ${(h / textSize.value)}px Subtitle`;
     switch (visibility.value) {
         case "0":
-            ctx.extrudedText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+            floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
             break;
         case "1":
-            ctx.extrudedText(subtitle.value, w * 0.5, h * 0.8, h / 30);
+            floating3DText(subtitle.value, w * 0.5, h * 0.8, h / 30);
             break;
         case "2":
-            ctx.extrudedText(subtitle.value, w * 0.5, h * 0.73, h / 30);
-            ctx.extrudedText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
+            floating3DText(subtitle.value, w * 0.5, h * 0.73, h / 30);
+            floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
             break;
     }
 
@@ -104,6 +104,24 @@ function background() {
     return bg;
 }
 
+function floating3DText(string, x, y, depth) {
+    let startX = x + depth;
+    let startY = y + depth;
+    for (let i = 1; i < depth; i++) {
+        if (i == 1) {
+            ctx.shadowColor = "rgba(0, 0, 10, 0.5)";
+            ctx.shadowBlur = 50;
+            ctx.shadowOffsetX = 30;
+            ctx.shadowOffsetY = 30;
+        }
+        ctx.fillStyle = "rgb(30, 30, 30)";
+        ctx.fillText(string, startX - i, startY - i);
+        ctx.shadowColor = "transparent";
+    }
+    ctx.fillStyle = "white";
+    ctx.fillText(string, x, y);
+}
+
 function dateToString(date) {
     return new Date(date).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 }
@@ -113,22 +131,4 @@ function downloadImage() {
     link.download = `thumbnail-${datePicker.value}.png`;
     link.href = output.toDataURL();
     link.click();
-}
-
-CanvasRenderingContext2D.prototype.extrudedText = function (string, x, y, depth) {
-    let startX = x + depth;
-    let startY = y + depth;
-    for (let i = 1; i < depth; i++) {
-        if (i == 1) {
-            this.shadowColor = "rgba(0, 0, 10, 0.5)";
-            this.shadowBlur = 50;
-            this.shadowOffsetX = 30;
-            this.shadowOffsetY = 30;
-        }
-        this.fillStyle = "rgb(30, 30, 30)";
-        this.fillText(string, startX - i, startY - i);
-        this.shadowColor = "transparent";
-    }
-    this.fillStyle = "white";
-    this.fillText(string, x, y);
 }
