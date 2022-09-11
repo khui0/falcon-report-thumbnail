@@ -20,15 +20,18 @@ const backgroundLogo = new Image();
 backgroundLogo.src = "assets/falcon.svg";
 
 const fontFaces = [
-    new FontFace("Title", "url(assets/LinLibertine_aBS.ttf)").load(),
-    new FontFace("Subtitle", "url(assets/Montserrat-SemiBold.ttf)").load()
+    new FontFace("Title", "url(assets/LinLibertineCapitalsB.woff2)").load(),
+    new FontFace("Subtitle", "url(assets/Montserrat-SemiBold.woff2)").load()
 ]
+
+var fontsLoaded = false;
 
 // Load fonts
 Promise.all(fontFaces).then(values => {
     for (let i = 0; i < values.length; i++) {
         document.fonts.add(values[i]);
     }
+    fontsLoaded = true;
     update();
 });
 
@@ -44,48 +47,50 @@ document.querySelectorAll("input, select").forEach(item => {
 document.getElementById("download").addEventListener("click", downloadImage);
 
 function update() {
-    // Draw background
-    ctx.fillStyle = background();
-    ctx.fillRect(0, 0, w, h);
+    if (fontsLoaded) {
+        // Draw background
+        ctx.fillStyle = background();
+        ctx.fillRect(0, 0, w, h);
 
-    // Draw background logo
-    let size = h * 1.5;
-    let x = (w - size) / 2;
-    let y = (h - size) / 2;
-    ctx.globalAlpha = 0.2;
-    ctx.drawImage(backgroundLogo, x, y, size, size);
-    ctx.globalAlpha = 1;
+        // Draw background logo
+        let size = h * 1.5;
+        let x = (w - size) / 2;
+        let y = (h - size) / 2;
+        ctx.globalAlpha = 0.2;
+        ctx.drawImage(backgroundLogo, x, y, size, size);
+        ctx.globalAlpha = 1;
 
-    // Set text formatting
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "white";
+        // Set text formatting
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "white";
 
-    // Draw title
-    ctx.font = `${(h / 8)}px Title`;
-    floating3DText("THE", w * 0.17, h * 0.23, h / 30);
-    ctx.font = `${(h / 3)}px Title`;
-    floating3DText("Falcon", w * 0.6, h * 0.25, h / 30);
-    ctx.font = `${(h / 2.5)}px Title`;
-    floating3DText("Report", w * 0.5, h * 0.5, h / 30);
+        // Draw title
+        ctx.font = `${(h / 8)}px Title`;
+        floating3DText("THE", w * 0.17, h * 0.23, h / 30);
+        ctx.font = `${(h / 3)}px Title`;
+        floating3DText("Falcon", w * 0.6, h * 0.25, h / 30);
+        ctx.font = `${(h / 2.5)}px Title`;
+        floating3DText("Report", w * 0.5, h * 0.5, h / 30);
 
-    // Draw subtitle
-    ctx.font = `600 ${(h / textSize.value)}px Subtitle`;
-    switch (visibility.value) {
-        case "0":
-            floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
-            break;
-        case "1":
-            floating3DText(subtitle.value, w * 0.5, h * 0.8, h / 30);
-            break;
-        case "2":
-            floating3DText(subtitle.value, w * 0.5, h * 0.73, h / 30);
-            floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
-            break;
+        // Draw subtitle
+        ctx.font = `${(h / textSize.value)}px Subtitle`;
+        switch (visibility.value) {
+            case "0":
+                floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+                break;
+            case "1":
+                floating3DText(subtitle.value, w * 0.5, h * 0.8, h / 30);
+                break;
+            case "2":
+                floating3DText(subtitle.value, w * 0.5, h * 0.73, h / 30);
+                floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
+                break;
+        }
+
+        // Draw offscreen canvas to onscreen canvas
+        output.getContext("2d").drawImage(output.offscreen, 0, 0);
     }
-
-    // Draw offscreen canvas to onscreen canvas
-    output.getContext("2d").drawImage(output.offscreen, 0, 0);
 }
 
 function background() {
