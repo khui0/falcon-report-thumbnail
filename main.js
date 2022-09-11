@@ -38,7 +38,7 @@ Promise.all(fontFaces).then(values => {
 // Set date picker to Friday
 var today = new Date();
 var friday = today.getDate() - today.getDay() + 5;
-datePicker.valueAsDate = new Date(today.setDate(friday));
+datePicker.value = dateToISO(new Date(today.setDate(friday)));
 
 document.querySelectorAll("input, select").forEach(item => {
     item.addEventListener("input", update);
@@ -129,6 +129,13 @@ function floating3DText(string, x, y, depth) {
 
 function dateToString(date) {
     return new Date(date).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+}
+
+function dateToISO(date) {
+    let year = date.getFullYear()
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
 }
 
 function downloadImage() {
