@@ -67,24 +67,24 @@ function update() {
 
         // Draw title
         ctx.font = `${(h / 8)}px Title`;
-        floating3DText("THE", w * 0.17, h * 0.23, h / 30);
+        extrudedText(ctx, "THE", w * 0.17, h * 0.23, h / 30);
         ctx.font = `${(h / 3)}px Title`;
-        floating3DText("Falcon", w * 0.6, h * 0.25, h / 30);
+        extrudedText(ctx, "Falcon", w * 0.6, h * 0.25, h / 30);
         ctx.font = `${(h / 2.5)}px Title`;
-        floating3DText("Report", w * 0.5, h * 0.5, h / 30);
+        extrudedText(ctx, "Report", w * 0.5, h * 0.5, h / 30);
 
         // Draw subtitle
         ctx.font = `${(h / textSize.value)}px Subtitle`;
         switch (visibility.value) {
             case "0":
-                floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+                extrudedText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
                 break;
             case "1":
-                floating3DText(subtitle.value, w * 0.5, h * 0.8, h / 30);
+                extrudedText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
                 break;
             case "2":
-                floating3DText(subtitle.value, w * 0.5, h * 0.73, h / 30);
-                floating3DText(dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
+                extrudedText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
+                extrudedText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
                 break;
         }
 
@@ -109,7 +109,7 @@ function background() {
     return bg;
 }
 
-function floating3DText(string, x, y, depth) {
+function extrudedText(ctx, string, x, y, depth) {
     let startX = x + depth;
     let startY = y + depth;
     for (let i = 1; i < depth; i++) {
