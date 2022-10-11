@@ -26,7 +26,8 @@ body {
 
 :focus {
     outline: none;
-    filter: brightness(1.1);
+    box-shadow: 0 0 0 2px var(--accent-color);
+    transition: 50ms ease;
 }
 
 h1,
@@ -44,6 +45,7 @@ h1 {
 }
 
 a {
+    width: fit-content;
     color: var(--accent-color);
     text-decoration: none;
 }
@@ -78,7 +80,7 @@ button {
 }
 
 button:hover {
-    filter: brightness(1.1);
+    box-shadow: 0 0 0 2px var(--accent-color);
 }
 
 #output {
