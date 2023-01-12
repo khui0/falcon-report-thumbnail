@@ -17,8 +17,9 @@
 <body>
     <h1>Falcon Report Thumbnail</h1>
     <canvas id="output"></canvas>
-    <a href="https://github.com/khui0/falcon-report-thumbnail" target="_blank">GitHub</a>
-    <p>Text size (fraction of image height)</p>
+    <h2>Options</h2>
+    <!-- <a href="https://github.com/khui0/falcon-report-thumbnail" target="_blank">GitHub</a> -->
+    <label for="text-size">Font size</label>
     <select id="text-size">
         <option value="6">1/6</option>
         <option value="7">1/7</option>
@@ -26,18 +27,18 @@
         <option value="9">1/9</option>
         <option value="10">1/10</option>
     </select>
-    <p>Text visibility</p>
+    <label for="visibility">Subtitle options</label>
     <select id="visibility">
         <option value="0" selected>Date only</option>
         <option value="1">Subtitle only</option>
         <option value="2">Both</option>
     </select>
-    <p>Subtitle</p>
+    <label for="subtitle">Subtitle</label>
     <input type="text" placeholder="Subtitle" id="subtitle">
-    <p>Date</p>
+    <label for="date">Date</label>
     <input type="date" id="date">
     <button id="download">Download</button>
-    <script src="main.js"></script>
+    <script src="main.js" type="module"></script>
 </body>
 
 </html>
