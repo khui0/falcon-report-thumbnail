@@ -1,3 +1,5 @@
+import * as canvas from "./canvas.js";
+
 const output = document.getElementById("output");
 const w = 1920;
 const h = 1080;
@@ -66,30 +68,38 @@ function update() {
         ctx.fillStyle = "white";
 
         // Draw title
-        ctx.font = `${(h / 8)}px Title`;
-        extrudedText(ctx, "THE", w * 0.17, h * 0.23, h / 30);
-        ctx.font = `${(h / 3)}px Title`;
-        extrudedText(ctx, "Falcon", w * 0.6, h * 0.25, h / 30);
-        ctx.font = `${(h / 2.5)}px Title`;
-        extrudedText(ctx, "Report", w * 0.5, h * 0.5, h / 30);
+        let title = [
+            new canvas.Text("THE", w * 0.17, h * 0.25, `${(h / 8)}px Title`),
+            new canvas.Text("Falcon", w * 0.59, h * 0.258, `${(h / 3)}px Title`),
+            new canvas.Text("Report", w * 0.5, h * 0.5, `${(h / 2.5)}px Title`)
+        ]
+        drawCustomText(ctx, title, 0, 0, h / 30);
 
         // Draw subtitle
         ctx.font = `${(h / textSize.value)}px Subtitle`;
         switch (visibility.value) {
             case "0":
-                extrudedText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
+                extrudeText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.8, h / 30);
                 break;
             case "1":
-                extrudedText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
+                extrudeText(ctx, subtitle.value, w * 0.5, h * 0.8, h / 30);
                 break;
             case "2":
-                extrudedText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
-                extrudedText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
+                extrudeText(ctx, subtitle.value, w * 0.5, h * 0.73, h / 30);
+                extrudeText(ctx, dateToString(datePicker.value + "T00:00:00"), w * 0.5, h * 0.87, h / 30);
                 break;
         }
 
         // Draw offscreen canvas to onscreen canvas
         output.getContext("2d").drawImage(output.offscreen, 0, 0);
+    }
+}
+
+function drawCustomText(ctx, input, offsetX, offsetY, depth) {
+    for (let i = 0; i < input.length; i++) {
+        let text = input[i];
+        ctx.font = text.font;
+        extrudeText(ctx, text.string, text.x + offsetX, text.y + offsetY, depth);
     }
 }
 
@@ -109,7 +119,7 @@ function background() {
     return bg;
 }
 
-function extrudedText(ctx, string, x, y, depth) {
+function extrudeText(ctx, string, x, y, depth) {
     let startX = x + depth;
     let startY = y + depth;
     for (let i = 1; i < depth; i++) {
