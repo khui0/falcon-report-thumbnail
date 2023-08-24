@@ -6,9 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thumbnail Generator</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
+    <h1>Thumbnail Generator</h1>
+    <canvas id="preview"></canvas>
+    <h2>Options</h2>
+    <label>
+        Date
+        <input type="date" id="date">
+    </label>
+    <label>
+        Font Size
+        <select id="font-size">
+            <option value="10">1/10</option>
+            <option value="9">1/9</option>
+            <option value="8" selected>1/8</option>
+            <option value="7">1/7</option>
+            <option value="6">1/6</option>
+        </select>
+    </label>
+    <label>
+        Subtitle Visibility
+        <select id="visibility">
+            <option value="date">Date</option>
+            <option value="subtitle">Subtitle</option>
+            <option value="both">Date and Subtitle</option>
+        </select>
+    </label>
+    <label>
+        Subtitle Text
+        <input type="text" id="subtitle-text">
+    </label>
+    <button id="download"><i class="ri-download-2-line"></i> Download</button>
     <script type="module" src="src/main.js"></script>
 </body>
 
