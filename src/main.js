@@ -61,7 +61,7 @@ let updateTimeout;
     item.addEventListener("input", e => {
         clearTimeout(updateTimeout);
         if (ready) {
-            updateTimeout = setTimeout(update, 1000);
+            updateTimeout = setTimeout(update, 500);
         }
     });
 });
