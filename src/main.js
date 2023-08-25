@@ -11,6 +11,8 @@ import logo from "./assets/falcon-report-logo-v2.svg?raw";
 const WIDTH = 1920;
 const HEIGHT = 1080;
 
+const SHADOW_COLOR = "hsl(0, 0%, 12%)";
+
 // Load assets
 let ready = false;
 
@@ -29,7 +31,7 @@ const promises = [
         logoWhite = img;
     }),
     loadImage(setSVGStyle(logo, {
-        fill: "hsl(0, 0%, 12%)"
+        fill: SHADOW_COLOR
     })).then(img => {
         logoGray = img;
     }),
@@ -97,6 +99,7 @@ function update() {
 
     // Draw Falcon Report Logo
     (() => {
+        thumbnail.ctx
         const scale = 1.2;
         const w = logoWhite.width * scale;
         const h = logoWhite.height * scale;
@@ -106,6 +109,52 @@ function update() {
             ctx.drawImage(logoGray, x, y, w, h);
         });
         ctx.drawImage(logoWhite, x, y, w, h);
+    })();
+
+    // Draw subtitle
+    (() => {
+        const date = dateToString(options.date + "T00:00:00");
+        const subtitle = options.subtitleText;
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = `${(HEIGHT / options.fontSize)}px "Montserrat"`;
+        switch (options.visibility) {
+            case "date": {
+                const x = WIDTH * 0.5;
+                const y = HEIGHT * 0.8;
+                longShadow(HEIGHT / 30, () => {
+                    ctx.fillStyle = SHADOW_COLOR;
+                    ctx.fillText(date, x, y);
+                });
+                ctx.fillStyle = "white";
+                ctx.fillText(date, x, y);
+                break;
+            }
+            case "subtitle": {
+                const x = WIDTH * 0.5;
+                const y = HEIGHT * 0.8;
+                longShadow(HEIGHT / 30, () => {
+                    ctx.fillStyle = SHADOW_COLOR;
+                    ctx.fillText(subtitle, x, y);
+                });
+                ctx.fillStyle = "white";
+                ctx.fillText(subtitle, x, y);
+                break;
+            }
+            case "both": {
+                const x = WIDTH * 0.5;
+                longShadow(HEIGHT / 30, () => {
+                    ctx.fillStyle = SHADOW_COLOR;
+                    ctx.fillText(subtitle, x, HEIGHT * 0.73);
+                    ctx.fillText(date, x, HEIGHT * 0.87);
+                });
+                ctx.fillStyle = "white";
+                ctx.fillText(subtitle, x, HEIGHT * 0.73);
+                ctx.fillText(date, x, HEIGHT * 0.87);
+                break;
+            }
+        }
     })();
 
     thumbnail.draw();
