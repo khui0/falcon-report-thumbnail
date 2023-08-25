@@ -118,7 +118,7 @@ function update() {
 
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = `600 ${(HEIGHT / options.fontSize)}px "Montserrat"`;
+        ctx.font = `600 ${(HEIGHT / options.fontSize)}px "Montserrat-SemiBold"`;
         switch (options.visibility) {
             case "date": {
                 const x = WIDTH * 0.5;
