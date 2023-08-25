@@ -1,5 +1,6 @@
 import "./reset.css";
 import "./style.css";
+import "./fonts.css";
 import "remixicon/fonts/remixicon.css"
 
 import * as canvas from "./canvas.js";
@@ -117,7 +118,7 @@ function update() {
 
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = `bold ${(HEIGHT / options.fontSize)}px "Montserrat"`;
+        ctx.font = `600 ${(HEIGHT / options.fontSize)}px "Montserrat"`;
         switch (options.visibility) {
             case "date": {
                 const x = WIDTH * 0.5;
