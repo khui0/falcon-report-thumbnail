@@ -6,7 +6,7 @@ import * as canvas from "./canvas.js";
 
 // Assets
 import falcon from "./assets/falcon.svg";
-import logo from "./assets/falcon-report-logo-v2.svg?raw";
+import logo from "./assets/falcon-report-logo-v2-with-padding-01.svg?raw";
 
 const WIDTH = 1920;
 const HEIGHT = 1080;
@@ -90,8 +90,8 @@ function update() {
     // Draw background logo
     (() => {
         const size = HEIGHT * 1.5;
-        const x = (WIDTH - size) * 0.5;
-        const y = (HEIGHT - size) * 0.5;
+        const x = (WIDTH - size) / 2;
+        const y = (HEIGHT - size) / 2;
         ctx.globalAlpha = 0.2;
         ctx.drawImage(backgroundLogo, x, y, size, size);
         ctx.globalAlpha = 1;
@@ -100,11 +100,10 @@ function update() {
     // Draw Falcon Report Logo
     (() => {
         thumbnail.ctx
-        const scale = 1.2;
-        const w = logoWhite.width * scale;
-        const h = logoWhite.height * scale;
-        const x = (WIDTH - w) * 0.5;
-        const y = (HEIGHT - h) * 0.25;
+        const w = WIDTH * 1;
+        const h = logoWhite.height * w / logoWhite.width;
+        const x = WIDTH * 0.5 - (w / 2);
+        const y = HEIGHT * 0.375 - (h / 2);
         longShadow(HEIGHT / 30, () => {
             ctx.drawImage(logoGray, x, y, w, h);
         });
