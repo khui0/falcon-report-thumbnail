@@ -2,12 +2,11 @@ import "./reset.css";
 import "./style.css";
 import "remixicon/fonts/remixicon.css"
 
-// Assets
-import linuxLibertine from "./assets/LinLibertineCapitalsB.woff2";
-import montserrat from "./assets/Montserrat-SemiBold.woff2";
-import falcon from "./assets/falcon.svg";
-
 import * as canvas from "./canvas.js";
+
+// Assets
+import falcon from "./assets/falcon.svg";
+import logo from "./assets/falcon-report-logo-v2.svg?raw";
 
 const WIDTH = 1920;
 const HEIGHT = 1080;
@@ -15,22 +14,35 @@ const HEIGHT = 1080;
 // Load assets
 let ready = false;
 
-const fontFaces = [
-    new FontFace("Linux Libertine", "url(./assets/LinLibertineCapitalsB.woff2)").load(),
-    new FontFace("Montserrat", `url(${montserrat})`).load(),
+let backgroundLogo;
+let logoWhite;
+let logoGray;
+
+const promises = [
+    document.fonts.ready,
+    loadImage(falcon).then(img => {
+        backgroundLogo = img;
+    }),
+    loadImage(setSVGStyle(logo, {
+        fill: "white"
+    })).then(img => {
+        logoWhite = img;
+    }),
+    loadImage(setSVGStyle(logo, {
+        fill: "gray"
+    })).then(img => {
+        logoGray = img;
+    }),
 ]
-Promise.all(fontFaces).then(font => {
-    for (let i = 0; i < font.length; i++) {
-        document.fonts.add(font[i]);
-    }
+
+Promise.all(promises).then(() => {
     ready = true;
     update();
 });
 
-const backgroundLogo = loadImage(falcon);
-
 // Create the canvas
 const thumbnail = new canvas.Offscreen(document.getElementById("preview"), WIDTH, HEIGHT);
+const ctx = thumbnail.ctx;
 
 // Set date picker to Friday
 const dateInput = document.getElementById("date");
@@ -52,14 +64,12 @@ let updateTimeout;
     });
 });
 
-update();
-
 function update() {
     const options = getOptions();
 
     // Draw background
-    thumbnail.ctx.fillStyle = (() => {
-        const gradient = thumbnail.ctx.createConicGradient(0, WIDTH * 0.5, HEIGHT * 0.5);
+    ctx.fillStyle = (() => {
+        const gradient = ctx.createConicGradient(0, WIDTH * 0.5, HEIGHT * 0.5);
         gradient.addColorStop(0, "rgb(122, 24, 24)");
         gradient.addColorStop(0.1, "rgb(178, 35, 35)");
         gradient.addColorStop(0.2, "rgb(122, 24, 24)");
@@ -73,19 +83,28 @@ function update() {
         gradient.addColorStop(1, "rgb(122, 24, 24)");
         return gradient;
     })();
-    thumbnail.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     // Draw background logo
     const size = HEIGHT * 1.5;
-    const x = (WIDTH - size) / 2;
-    const y = (HEIGHT - size) / 2;
-    thumbnail.ctx.globalAlpha = 0.2;
-    // thumbnail.ctx.drawImage(backgroundLogo, x, y, size, size);
-    thumbnail.ctx.globalAlpha = 1;
+    const x = (WIDTH - size) * 0.5;
+    const y = (HEIGHT - size) * 0.5;
+    ctx.globalAlpha = 0.2;
+    ctx.drawImage(backgroundLogo, x, y, size, size);
+    ctx.globalAlpha = 1;
 
-    thumbnail.ctx.fillStyle = "black";
-    thumbnail.ctx.font = `100px ""`;
-    thumbnail.ctx.fillText("test", 100, 100);
+    // Draw Falcon Report Logo
+    (() => {
+        const scale = 1.2;
+        const w = logoWhite.width * scale;
+        const h = logoWhite.height * scale;
+        const x = (WIDTH - w) * 0.5;
+        const y = (HEIGHT - h) * 0.3;
+        longShadow(50, () => {
+            ctx.drawImage(logoGray, x, y, w, h);
+        });
+        ctx.drawImage(logoWhite, x, y, w, h);
+    })();
 
     thumbnail.draw();
 }
@@ -99,9 +118,9 @@ function getOptions() {
     }
 }
 
-function longShadow(ctx, string, x, y, depth) {
-    let startX = x + depth;
-    let startY = y + depth;
+function longShadow(depth, callback) {
+    ctx.save();
+    ctx.translate(depth, depth);
     for (let i = 1; i < depth; i++) {
         if (i == 1) {
             ctx.shadowColor = "rgba(0, 0, 10, 0.5)";
@@ -109,12 +128,13 @@ function longShadow(ctx, string, x, y, depth) {
             ctx.shadowOffsetX = 30;
             ctx.shadowOffsetY = 30;
         }
-        ctx.fillStyle = "rgb(30, 30, 30)";
-        ctx.fillText(string, startX - i, startY - i);
-        ctx.shadowColor = "transparent";
+        else {
+            ctx.shadowColor = "transparent";
+        }
+        ctx.translate(-1, -1);
+        callback();
     }
-    ctx.fillStyle = "white";
-    ctx.fillText(string, x, y);
+    ctx.restore();
 }
 
 function dateToString(date) {
@@ -133,6 +153,15 @@ function loadImage(src) {
         img.onerror = reject;
         img.src = src;
     });
+}
+
+function setSVGStyle(svg, styles) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svg, "image/svg+xml");
+    Object.assign(doc.querySelector("svg").style, styles);
+
+    const xml = new XMLSerializer().serializeToString(doc);
+    return "data:image/svg+xml;base64," + btoa(xml);
 }
 
 document.getElementById("download").addEventListener("click", e => {
