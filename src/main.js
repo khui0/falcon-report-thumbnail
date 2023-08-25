@@ -46,7 +46,7 @@ const ctx = thumbnail.ctx;
 
 // Set date picker to Friday
 const dateInput = document.getElementById("date");
-dateInput.value = getFriday().toISOString().split("T")[0];
+dateInput.value = dateToISO(getFriday());
 
 // Call update 1 second after the last input
 let updateTimeout;
@@ -141,6 +141,13 @@ function longShadow(depth, callback) {
 
 function dateToString(date) {
     return new Date(date).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+}
+
+function dateToISO(date) {
+    let year = date.getFullYear()
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
 }
 
 function getFriday() {
