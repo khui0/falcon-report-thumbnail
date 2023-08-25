@@ -68,7 +68,7 @@ function update() {
     const options = getOptions();
 
     // Draw background
-    ctx.fillStyle = (() => {
+    (() => {
         const gradient = ctx.createConicGradient(0, WIDTH * 0.5, HEIGHT * 0.5);
         gradient.addColorStop(0, "rgb(122, 24, 24)");
         gradient.addColorStop(0.1, "rgb(178, 35, 35)");
@@ -81,17 +81,19 @@ function update() {
         gradient.addColorStop(0.8, "rgb(122, 24, 24)");
         gradient.addColorStop(0.9, "rgb(178, 35, 35)");
         gradient.addColorStop(1, "rgb(122, 24, 24)");
-        return gradient;
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
     })();
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     // Draw background logo
-    const size = HEIGHT * 1.5;
-    const x = (WIDTH - size) * 0.5;
-    const y = (HEIGHT - size) * 0.5;
-    ctx.globalAlpha = 0.2;
-    ctx.drawImage(backgroundLogo, x, y, size, size);
-    ctx.globalAlpha = 1;
+    (() => {
+        const size = HEIGHT * 1.5;
+        const x = (WIDTH - size) * 0.5;
+        const y = (HEIGHT - size) * 0.5;
+        ctx.globalAlpha = 0.2;
+        ctx.drawImage(backgroundLogo, x, y, size, size);
+        ctx.globalAlpha = 1;
+    })();
 
     // Draw Falcon Report Logo
     (() => {
