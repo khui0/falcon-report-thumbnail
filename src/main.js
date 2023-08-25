@@ -29,7 +29,7 @@ const promises = [
         logoWhite = img;
     }),
     loadImage(setSVGStyle(logo, {
-        fill: "gray"
+        fill: "hsl(0, 0%, 12%)"
     })).then(img => {
         logoGray = img;
     }),
@@ -99,8 +99,8 @@ function update() {
         const w = logoWhite.width * scale;
         const h = logoWhite.height * scale;
         const x = (WIDTH - w) * 0.5;
-        const y = (HEIGHT - h) * 0.3;
-        longShadow(50, () => {
+        const y = (HEIGHT - h) * 0.25;
+        longShadow(HEIGHT / 30, () => {
             ctx.drawImage(logoGray, x, y, w, h);
         });
         ctx.drawImage(logoWhite, x, y, w, h);
