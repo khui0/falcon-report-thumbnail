@@ -58,6 +58,7 @@ let updateTimeout;
     document.getElementById("font-size"),
     document.getElementById("visibility"),
     document.getElementById("subtitle-text"),
+    document.getElementById("background"),
 ].forEach(item => {
     item.addEventListener("input", e => {
         clearTimeout(updateTimeout);
@@ -70,8 +71,11 @@ let updateTimeout;
 function update() {
     const options = getOptions();
 
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
     // Draw background
-    (() => {
+    console.log(options.background)
+    if (options.background != "transparent") {
         const gradient = ctx.createConicGradient(0, WIDTH * 0.5, HEIGHT * 0.5);
         gradient.addColorStop(0, "rgb(122, 24, 24)");
         gradient.addColorStop(0.1, "rgb(178, 35, 35)");
@@ -86,7 +90,7 @@ function update() {
         gradient.addColorStop(1, "rgb(122, 24, 24)");
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    })();
+    }
 
     // Draw background logo
     (() => {
@@ -166,6 +170,7 @@ function getOptions() {
         fontSize: document.getElementById("font-size").value,
         visibility: document.getElementById("visibility").value,
         subtitleText: document.getElementById("subtitle-text").value,
+        background: document.getElementById("background").value,
     }
 }
 

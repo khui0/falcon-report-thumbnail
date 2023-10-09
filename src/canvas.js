@@ -15,6 +15,7 @@ export class Offscreen {
     }
 
     draw() {
+        this.target.getContext("2d").clearRect(0, 0, this.width, this.height);
         this.target.getContext("2d").drawImage(this.canvas, 0, 0);
     }
 } 
