@@ -74,7 +74,6 @@ function update() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
     // Draw background
-    console.log(options.background)
     if (options.background != "transparent") {
         const gradient = ctx.createConicGradient(0, WIDTH * 0.5, HEIGHT * 0.5);
         gradient.addColorStop(0, "rgb(122, 24, 24)");
